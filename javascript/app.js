@@ -10,7 +10,6 @@ $(document).ready(function () {
             c: "3 hours",
             d: "90 days",
             correct: "150 days"
-
         },
         {
             q: "What do goats like to eat?",
@@ -36,6 +35,14 @@ $(document).ready(function () {
             d: "All of the above!", // correct answer
             correct: "All of the above!"
         },
+        {
+            q: "How awesome are goats?",
+            a: "Not at all awesome",
+            b: "Just a little awesome",
+            c: "Pretty awesome",
+            d: "Awesome AF", // correct answer
+            correct: "Awesome AF"
+        },
 
     ];
 
@@ -52,13 +59,17 @@ $(document).ready(function () {
     var gameOverCard = $("#game-over-card");
     var timeOutCard = $("#timeout-card");
     var showCorrect = $("#show-correct");
+    var timeoutShowCorrect = $("#timeout-show-correct");
     var numRightDisplay = $("#num-right-display");
     var numWrongDisplay = $("#num-wrong-display");
+    var angryGoat = new Audio("assets/angry-goat.mp3");
+    var happyGoat = new Audio("assets/happy-goat.wav")
     var rightAns;
     var userAns;
     var numWrong = 0;
     var numRight = 0;
     var i = 0;
+    var gameOverMan = false;
 
 
     //displays question and answers
@@ -74,6 +85,7 @@ $(document).ready(function () {
         numRightDisplay.text(numRight);
         numWrongDisplay.text(numWrong);
         qCard.hide();
+        wrongCard.hide();
         gameOverCard.show()
         startButton.show()
     };
@@ -96,27 +108,37 @@ $(document).ready(function () {
 
     startButton.on("click", function () {
         event.defaultPrevented;
-        i = 0;                                  // index of the question in the array
+        i = 0;
+        numWrong = 0;
+        numRight = 0;
         startButton.hide();
         fillQs();
         rightAns = qAndA[i].correct;
+        gameOverCard.hide();
         qCard.show();
 
 
         var timer =
             setTimeout(function () {
-                i++;
                 qCard.hide();
                 numWrong++
+                timeoutShowCorrect.text(rightAns)
+                timeOutCard.show();
+                i++;
+                if (i === qAndA.length) {
+                    gameOver()
+                } else {
+                    fillQs();
+                    qCard.show();
+                };
             }, 5000);
 
 
         //when user clicks an answer, replace list with correct or incorrect screen
         //loop through all questions
 
-
-
         $("li").on("click", function () {
+            rightAns = qAndA[i].correct;
             event.defaultPrevented;
             userAns = $(this).text();//get user's answer
             console.log(userAns);
@@ -125,35 +147,33 @@ $(document).ready(function () {
             console.log(qAndA.length);
             if (userAns === rightAns) { //right answer
                 correctCard.show();
+                happyGoat.play();
                 numRight++;
                 setTimeout(function () {   //after 2 seconds display the next question
                     correctCard.hide();
                     i++;
-                    rightAns = qAndA[i].correct;
-                    if (i < qAndA.length) {
+                    if (i === qAndA.length) {
+                        gameOver();
+                    } else {
                         fillQs();
                         qCard.show();
-                    } else {
-                        gameOver();
                     };
                 }, 2000);
+                setTimeout(timer, 5000);
             } else {  //wrong answer
                 showCorrect.text(rightAns);//incorrect screen shows the correct answer
                 wrongCard.show();
+                angryGoat.play();
                 numWrong++;
                 setTimeout(function () {   //after 2 seconds display the next question 
                     wrongCard.hide();
                     i++;
-                    rightAns = qAndA[i].correct;
-                    if (i < qAndA.length) {
+                    if (i === qAndA.length) {
+                        gameOver()
+                    } else {
                         fillQs();
                         qCard.show();
-                    } else {
-                        gameOver();
                     };
-
-
-
                 }, 2000);
             };
         });
