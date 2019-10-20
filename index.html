@@ -37,30 +37,82 @@
                             <div class="col-sm-8">
                                 <!--Question and answer card-->
                                 <div class="container">
-                                    <div class="card">
+                                    <!--q- card start-->
+                                    <div id="q-card" class="card">
                                         <!--Question-->
                                         <div id="q-display" class="card-header">
                                             Featured
                                         </div>
                                         <!--List of answers-->
-                                        <div>
-                                            <ul class="list-group list-group-flush">
-                                                <li id="a-display-1" class="list-group-item bg-white">Cras justo odio
-                                                </li>
-                                                <li id="a-display-2" class="list-group-item">Dapibus ac facilisis in
-                                                </li>
-                                                <li id="a-display-3" class="list-group-item">Vestibulum at eros</li>
-                                                <li id="a-display-4" class="list-group-item">Vestibulum at eros</li>
-                                            </ul>
-                                        </div>
+
+                                        <ul class="list-group list-group-flush">
+                                            <li id="a-display-1" class="list-group-item bg-white">Cras justo odio
+                                            </li>
+                                            <li id="a-display-2" class="list-group-item">Dapibus ac facilisis in
+                                            </li>
+                                            <li id="a-display-3" class="list-group-item">Vestibulum at eros</li>
+                                            <li id="a-display-4" class="list-group-item">Vestibulum at eros</li>
+                                        </ul>
                                     </div>
+                                    <!--q card end-->
+
+                                    <!--wrong-card start-->
+                                    <div id="wrong-card" class="card">
+
+                                        <div class="card-header">
+                                            <span>Nope. </span><span id="show-correct"></span>
+                                        </div>
+                                        <!--Sad goat-->
+                                        <img class="img-fluid rounded" src="images/sad-goat.jpg" alt="sad goat">
+                                    </div>
+                                    <!--wrong-card end-->
+
+                                    <!--correct-card start-->
+                                    <div id="correct-card" class="card">
+
+                                        <div class="card-header">
+                                            YAAAAAAAAAAAAY!!!!!!.
+                                        </div>
+                                        <!--Happy goat-->
+                                        <img class="img-fluid rounded" src="images/happy-goat.jpg" alt="happy goat">
+                                    </div>
+                                    <!--correct-card end-->
+
+                                    <!--timeout-card start-->
+                                    <div id="timeout-card" class="card">
+
+                                        <div class="card-header">
+                                            <span>Time's up! It was </span><span id="show-correct"></span>
+                                        </div>
+                                        <!--stressed out goat-->
+                                        <img class="img-fluid rounded" src="images/sad-goat.jpg" alt="sad goat">
+                                    </div>
+                                    <!--timeout card end-->
+
+                                    <!--game over card start-->
+                                    <div id="game-over-card" class="card">
+
+                                        <div class="card-header">
+                                            <span>Game Over</span>
+                                            <p>Here's your score</p>
+                                            <p><span id="num-right-display">Correct Answers:</span> </p>
+                                            <p><span id="num-wrong-display">Wrong Answers:</span></p>
+                                        </div>
+                                        <!--triumphant goat-->
+                                        <img class="img-fluid rounded" src="images/sad-goat.jpg" alt="sad goat">
+                                    </div>
+                                    <!--game over card end-->
+
                                     <div class="row">
                                         <div class="col">
                                             <button type="button" class="btn btn-primary btn-lg btn-block">Take the
                                                 quiz!</button>
                                         </div>
                                     </div>
+
+
                                 </div>
+
                             </div>
                             <!--Ridiculous goat image-->
                             <div class="col-sm-2">
@@ -70,23 +122,22 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
 
 
-
-
-
-
-
-
-
-
-
-
-    </div>
-
-
-    <script src="javascript/app.js"></script>
+        <script src="javascript/app.js"></script>
 </body>
 
 </html>

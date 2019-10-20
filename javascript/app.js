@@ -1,6 +1,7 @@
 
 //make question and answer objects
 $(document).ready(function () {
+
     var qAndA = [
         {
             q: "How long is the gestation period of a goat?",
@@ -37,7 +38,7 @@ $(document).ready(function () {
         },
 
     ];
-    console.log(qAndA[0].correct);
+
     //question and answer elements
     var question = $("#q-display");
     var answerA = $("#a-display-1");
@@ -45,13 +46,23 @@ $(document).ready(function () {
     var answerC = $("#a-display-3");
     var answerD = $("#a-display-4");
     var startButton = $("button");
-    var card = $(".card");
+    var qCard = $("#q-card");
+    var correctCard = $("#correct-card");
+    var wrongCard = $("#wrong-card");
+    var gameOverCard = $("#game-over-card");
+    var timeOutCard = $("#timeout-card");
+    var showCorrect = $("#show-correct");
+    var numRightDisplay = $("#num-right-display");
+    var numWrongDisplay = $("#num-wrong-display");
+    var rightAns;
     var userAns;
-    var i;
+    var numWrong = 0;
+    var numRight = 0;
+    var i = 0;
 
 
     //displays question and answers
-    function showQs() {
+    function fillQs() {
         question.text(qAndA[i].q);
         answerA.text(qAndA[i].a);
         answerB.text(qAndA[i].b);
@@ -59,53 +70,104 @@ $(document).ready(function () {
         answerD.text(qAndA[i].d);
     };
 
+    function gameOver() {
+        numRightDisplay.text(numRight);
+        numWrongDisplay.text(numWrong);
+        qCard.hide();
+        gameOverCard.show()
+        startButton.show()
+    };
 
 
-    //get user's answer
 
 
 
     //-----------------------------main game--------------------------------
 
     //card starts out hidden
-    card.hide();
-
+    qCard.hide();
+    correctCard.hide();
+    wrongCard.hide();
+    timeOutCard.hide();
+    gameOverCard.hide();
     //press start button to start the game
     //use jquery to display the questions and answers
+
+
     startButton.on("click", function () {
         event.defaultPrevented;
-        i = 0; // index of the question in the array
+        i = 0;                                  // index of the question in the array
         startButton.hide();
-        showQs();
-        card.show();
-        var rightAns = qAndA[i].correct;
-        console.log(rightAns);
-        setInterval(function () {
-            i++;
-            showQs();
-        }, 5000);
+        fillQs();
+        rightAns = qAndA[i].correct;
+        qCard.show();
+
+
+        var timer =
+            setTimeout(function () {
+                i++;
+                qCard.hide();
+                numWrong++
+            }, 5000);
 
 
         //when user clicks an answer, replace list with correct or incorrect screen
+        //loop through all questions
+
+
 
         $("li").on("click", function () {
             event.defaultPrevented;
-            userAns = $(this).text();
+            userAns = $(this).text();//get user's answer
+            console.log(userAns);
+            clearTimeout(timer);
+            qCard.hide()
+            console.log(qAndA.length);
+            if (userAns === rightAns) { //right answer
+                correctCard.show();
+                numRight++;
+                setTimeout(function () {   //after 2 seconds display the next question
+                    correctCard.hide();
+                    i++;
+                    rightAns = qAndA[i].correct;
+                    if (i < qAndA.length) {
+                        fillQs();
+                        qCard.show();
+                    } else {
+                        gameOver();
+                    };
+                }, 2000);
+            } else {  //wrong answer
+                showCorrect.text(rightAns);//incorrect screen shows the correct answer
+                wrongCard.show();
+                numWrong++;
+                setTimeout(function () {   //after 2 seconds display the next question 
+                    wrongCard.hide();
+                    i++;
+                    rightAns = qAndA[i].correct;
+                    if (i < qAndA.length) {
+                        fillQs();
+                        qCard.show();
+                    } else {
+                        gameOver();
+                    };
 
-            if (userAns === rightAns) {
-                $("ul").hide();
-                question.text("YAAAAAAAY");
-            } else {
-                $("ul").hide();
-                question.text("NOOOOOOOOO");
+
+
+                }, 2000);
             };
-
         });
-
     });
 
 });
 
-//incorrect screen shows the correct answer
-//after 3 seconds display the next question
+
+
+
+
+
+
+
+
+
 //on the final screen, show correct and incorrect count and an option to start again
